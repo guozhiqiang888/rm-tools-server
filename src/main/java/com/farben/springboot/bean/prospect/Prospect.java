@@ -1,6 +1,8 @@
 package com.farben.springboot.bean.prospect;
 
 
+import java.util.Date;
+
 public class Prospect {
 
   private String id;
@@ -9,12 +11,12 @@ public class Prospect {
   private String industry;
   private String description;
   private String registeredCapital;
-  private java.sql.Date dateFounded;
+  private Date dateFounded;
   private String address;
   private String province;
   private String city;
-  private java.sql.Timestamp createdTime;
-  private java.sql.Timestamp lastModifiedTime;
+  private Date createdTime;
+  private Date lastModifiedTime;
   private String createdById;
   private String lastedModifiedById;
 
@@ -73,11 +75,11 @@ public class Prospect {
   }
 
 
-  public java.sql.Date getDateFounded() {
+  public Date getDateFounded() {
     return dateFounded;
   }
 
-  public void setDateFounded(java.sql.Date dateFounded) {
+  public void setDateFounded(Date dateFounded) {
     this.dateFounded = dateFounded;
   }
 
@@ -109,20 +111,20 @@ public class Prospect {
   }
 
 
-  public java.sql.Timestamp getCreatedTime() {
+  public Date getCreatedTime() {
     return createdTime;
   }
 
-  public void setCreatedTime(java.sql.Timestamp createdTime) {
+  public void setCreatedTime(Date createdTime) {
     this.createdTime = createdTime;
   }
 
 
-  public java.sql.Timestamp getLastModifiedTime() {
+  public Date getLastModifiedTime() {
     return lastModifiedTime;
   }
 
-  public void setLastModifiedTime(java.sql.Timestamp lastModifiedTime) {
+  public void setLastModifiedTime(Date lastModifiedTime) {
     this.lastModifiedTime = lastModifiedTime;
   }
 

@@ -33,7 +33,7 @@ spring:
       username: root
       password: Farben1*
       driverClassName: com.mysql.jdbc.Driver
-      url: jdbc:mysql://39.98.183.95:3306/fhadmin_a
+      url: jdbc:mysql://39.98.183.95:3306/prospect
       type: com.alibaba.druid.pool.DruidDataSource
       #   数据源其他配置
       initialSize: 5
