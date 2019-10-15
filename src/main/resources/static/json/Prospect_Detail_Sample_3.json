@@ -1,0 +1,29 @@
+{
+  "ProspectID": "P1034328433",
+  "AssigneeName": "DDD P1234567899",
+  "AssigneeID": "P1234567899",
+  "Status": "Meeting held, discussion in progress",
+  "DueDate": "2019-10-09",
+  "Priority": "Low",
+  "ConfirmedProspectLocalName": "李四",
+  "ConfirmedProspectEnglishName": "DDDD",
+  "ReferrerID": "P43234",
+  "SalesRevenue": "1000",
+  "NumberOfEmployees": "200",
+  "Industry": "Medical",
+  "DateFounded": "2019-10-11",
+  "Website": "www.jidong.com",
+  "InternalInformation": {
+    "InitialProspectLocalName": "DD光学科技股份有限公司",
+    "InitialProspectEnglishName": "Medical",
+    "InitialAssignmentDate": "2019-10-11",
+    "FinancingInformation": "unknown",
+    "CustomsInformation": "unknown",
+    "RegistrationType": "unknown",
+    "ExistingAMHCustomer": true,
+    "ExistingHBCNCustomer": true,
+    "CurrentFinancingStage": "unknown",
+    "TrackingEndDate": "2019-10-11",
+    "BMTReceiveDate": "2019-10-11"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "ProspectID": "P1034328432",
+  "AssigneeName": "AA P1234567890",
+  "AssigneeID": "P1234567890",
+  "Status": "Scheduled face to face meeting",
+  "DueDate": "2019-10-09",
+  "Priority": "Low",
+  "ConfirmedProspectLocalName": "张三",
+  "ConfirmedProspectEnglishName": "AAAAA",
+  "ReferrerID": "P43234",
+  "SalesRevenue": "1000",
+  "NumberOfEmployees": "200",
+  "Industry": "Medical",
+  "DateFounded": "2019-10-11",
+  "Website": "www.jidong.com",
+  "InternalInformation": {
+    "InitialProspectLocalName": "AA工程科技集团有限公司",
+    "InitialProspectEnglishName": "Medical",
+    "InitialAssignmentDate": "2019-10-11",
+    "FinancingInformation": "unknown",
+    "CustomsInformation": "unknown",
+    "RegistrationType": "unknown",
+    "ExistingAMHCustomer": true,
+    "ExistingHBCNCustomer": true,
+    "CurrentFinancingStage": "unknown",
+    "TrackingEndDate": "2019-10-11",
+    "BMTReceiveDate": "2019-10-11"
+  }
+}

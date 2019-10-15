@@ -1,7 +1,7 @@
 {
   "Prospects": [
     {
-      "ID": "P1034328432",
+      "ID": "P1034328431",
       "LocalName": "灵康药业股份有限公司",
       "ShortName": "LK",
       "EnglishName": "Lionco Pharmaceutical Group Co.",
@@ -25,11 +25,11 @@
       "HasViewed": true
     },
 	{
-      "ID": "P1034328432",
+      "ID": "P1034328433",
       "LocalName": "DD光学科技股份有限公司",
       "ShortName": "DD",
       "EnglishName": "DD optics Ltd.",
-      "AssigneeID": "P1234567890",
+      "AssigneeID": "P1234567899",
       "Status": "Meeting held, discussion in progress",
       "NextAction": "add this report",
       "DueDate": "2019-10-09",

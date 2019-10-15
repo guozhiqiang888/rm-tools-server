@@ -1,0 +1,29 @@
+{
+  "ProspectID": "P1034328431",
+  "AssigneeName": "John 1234567890",
+  "AssigneeID": "1234567890",
+  "Status": "Meeting Scheduled",
+  "DueDate": "2019-10-09",
+  "Priority": "High",
+  "ConfirmedProspectLocalName": "张某",
+  "ConfirmedProspectEnglishName": "KAK",
+  "ReferrerID": "P43234",
+  "SalesRevenue": "1000",
+  "NumberOfEmployees": "200",
+  "Industry": "Medical",
+  "DateFounded": "2019-10-11",
+  "Website": "www.baidu.com",
+  "InternalInformation": {
+    "InitialProspectLocalName": "xxx制药公司",
+    "InitialProspectEnglishName": "Medical",
+    "InitialAssignmentDate": "2019-10-11",
+    "FinancingInformation": "unknown",
+    "CustomsInformation": "unknown",
+    "RegistrationType": "unknown",
+    "ExistingAMHCustomer": true,
+    "ExistingHBCNCustomer": true,
+    "CurrentFinancingStage": "unknown",
+    "TrackingEndDate": "2019-10-11",
+    "BMTReceiveDate": "2019-10-11"
+  }
+}
