@@ -29,21 +29,57 @@ public class ProspectController {
 
 
     @ApiOperation(value="获取Prospect列表", notes="获取Prospect列表")
-    @RequestMapping(value={"/getTest"}, method= RequestMethod.GET)
-    public Object getProspectTest(){
-        return JsonResourceUtil.getJsonObjFromResource("/static/json/Prospect_List_Reponse_Sample.json");
+    @RequestMapping(value={"/getTest/{status}"}, method= RequestMethod.GET)
+    public Object getProspectTest(@PathVariable("status") String status){
+        String filename = "/static/json/list/Prospect_List_Active.json";
+        switch(status){
+            case "active":
+                break;
+            case "closed":
+                filename = "/static/json/list/Prospect_List_Closed.json";
+                break;
+            case "cold":
+                filename = "/static/json/list/Prospect_List_Cold.json";
+                break;
+            default :
+                break;
+        }
+        return JsonResourceUtil.getJsonObjFromResource(filename);
     }
 
     @ApiOperation(value="获取Prospect明细", notes="获取Prospect明细")
     @RequestMapping(value={"/getDetailTest/{id}"}, method= RequestMethod.GET)
     public Object getProspectDetailTest(@PathVariable("id") String id){
-        String filename = "/static/json/Prospect_Detail_Sample_1.json";
-        if("P1034328431".equals(id)){
-            filename = "/static/json/Prospect_Detail_Sample_1.json";
-        } else if("P1034328432".equals(id)){
-            filename = "/static/json/Prospect_Detail_Sample_2.json";
-        } else if("P1034328433".equals(id)){
-            filename = "/static/json/Prospect_Detail_Sample_3.json";
+        String filename = "/static/json/detail/Prospect_Detail_1.json";
+        switch(id){
+            case "P1034328431":
+                break;
+            case "P1034328432":
+                filename = "/static/json/detail/Prospect_Detail_2.json";
+                break;
+            case "P1034328433":
+                filename = "/static/json/detail/Prospect_Detail_3.json";
+                break;
+            case "P1034328434":
+                filename = "/static/json/detail/Prospect_Detail_4.json";
+                break;
+            case "P1034328435":
+                filename = "/static/json/detail/Prospect_Detail_5.json";
+                break;
+            case "P1034328436":
+                filename = "/static/json/detail/Prospect_Detail_6.json";
+                break;
+            case "P1034328437":
+                filename = "/static/json/detail/Prospect_Detail_Closed_1.json";
+                break;
+            case "P1034328438":
+                filename = "/static/json/detail/Prospect_Detail_Closed_2.json";
+                break;
+            case "P1034328439":
+                filename = "/static/json/detail/Prospect_Detail_Cold_1.json";
+                break;
+            default :
+                break;
         }
         return JsonResourceUtil.getJsonObjFromResource(filename);
     }
