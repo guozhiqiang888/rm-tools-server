@@ -16,7 +16,11 @@ public class JsonResourceUtil {
 
     }
 
-    //filename 为文件名字 如 “/json/app_version_info.json”
+    /**
+     * 从json资源文件获取JSONObject
+     * @param filename filename 为文件名字 如 “/json/app_version_info.json”
+     * @return JSONObject
+     */
     public static JSONObject getJsonObjFromResource(String filename) {
         JSONObject json = null;
         if (!filename.contains(".json")) {
