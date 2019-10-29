@@ -5,6 +5,8 @@ import com.farben.springboot.service.ProspectService;
 import com.farben.springboot.util.JsonResourceUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,21 +20,24 @@ import java.util.List;
 @Api(tags = "ProspectController", description = "ProspectController | Prospect测试模块")
 public class ProspectController {
 
+    private Logger logger = LoggerFactory.getLogger(getClass());
+
     @Resource
     ProspectService prospectService;
 
-    @ApiOperation(value="获取Prospect列表", notes="获取Prospect列表")
-    @RequestMapping(value={"/get"}, method= RequestMethod.GET)
-    public List<Prospect> getProspectList(){
+    @ApiOperation(value = "获取Prospect列表", notes = "获取Prospect列表")
+    @RequestMapping(value = {"/get"}, method = RequestMethod.GET)
+    public List<Prospect> getProspectList() {
         return prospectService.getProspectList();
     }
 
 
-    @ApiOperation(value="获取Prospect列表", notes="获取Prospect列表")
-    @RequestMapping(value={"/getTest/{status}"}, method= RequestMethod.GET)
-    public Object getProspectTest(@PathVariable("status") String status){
+    @ApiOperation(value = "获取Prospect列表", notes = "获取Prospect列表")
+    @RequestMapping(value = {"/getTest/{status}"}, method = RequestMethod.GET)
+    public Object getProspectTest(@PathVariable("status") String status) {
+        logger.info("=================getProspectTest===============>begin: " + status);
         String filename = "/static/json/list/Prospect_List_Active.json";
-        switch(status){
+        switch (status) {
             case "active":
                 break;
             case "closed":
@@ -41,17 +46,18 @@ public class ProspectController {
             case "cold":
                 filename = "/static/json/list/Prospect_List_Cold.json";
                 break;
-            default :
+            default:
                 break;
         }
+        logger.info("=================getProspectTest===============>end: " + filename);
         return JsonResourceUtil.getJsonObjFromResource(filename);
     }
 
-    @ApiOperation(value="获取Prospect明细", notes="获取Prospect明细")
-    @RequestMapping(value={"/getDetailTest/{id}"}, method= RequestMethod.GET)
-    public Object getProspectDetailTest(@PathVariable("id") String id){
+    @ApiOperation(value = "获取Prospect明细", notes = "获取Prospect明细")
+    @RequestMapping(value = {"/getDetailTest/{id}"}, method = RequestMethod.GET)
+    public Object getProspectDetailTest(@PathVariable("id") String id) {
         String filename = "/static/json/detail/Prospect_Detail_1.json";
-        switch(id){
+        switch (id) {
             case "P1034328431":
                 break;
             case "P1034328432":
@@ -78,7 +84,7 @@ public class ProspectController {
             case "P1034328439":
                 filename = "/static/json/detail/Prospect_Detail_Cold_1.json";
                 break;
-            default :
+            default:
                 break;
         }
         return JsonResourceUtil.getJsonObjFromResource(filename);

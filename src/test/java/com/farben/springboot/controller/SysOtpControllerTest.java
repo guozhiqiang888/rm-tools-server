@@ -36,17 +36,17 @@ public class SysOtpControllerTest {
                 wac).build();
     }
 
-    @Test
-    public void testSaveSysOtp() throws Exception {
-        String JSON = "{\"id\":\"1001\",\"userId\":\"43990001\",\"otp\":\"123456\",\"expires\":15}";
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/sysOtp/save")
-                .accept(MediaType.APPLICATION_JSON).content(JSON)
-                .contentType(MediaType.APPLICATION_JSON);
-        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-        MockHttpServletResponse response = result.getResponse();
-        Assert.assertEquals(HttpStatus.OK.value(),response.getStatus());
-        Assert.assertEquals("1",response.getContentAsString());
-    }
+//    @Test
+//    public void testSaveSysOtp() throws Exception {
+//        String JSON = "{\"id\":\"1001\",\"userId\":\"43990001\",\"otp\":\"123456\",\"expires\":15}";
+//        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/sysOtp/save")
+//                .accept(MediaType.APPLICATION_JSON).content(JSON)
+//                .contentType(MediaType.APPLICATION_JSON);
+//        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+//        MockHttpServletResponse response = result.getResponse();
+//        Assert.assertEquals(HttpStatus.OK.value(),response.getStatus());
+//        Assert.assertEquals("1",response.getContentAsString());
+//    }
 
     @Test
     public void testGetSysOtp() throws Exception {
