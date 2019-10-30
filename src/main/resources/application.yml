@@ -1,7 +1,7 @@
 server:
   port: 80
   servlet:
-    context-path: /aaaa/
+    context-path: /test/
 spring:
   datasource:
     wechat:
