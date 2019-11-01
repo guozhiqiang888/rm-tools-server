@@ -9,7 +9,7 @@ public class SysUser extends BaseEntity implements Serializable {
   private String userName;
   private String userNameCn;
   private String phone;
-  private String number;
+  private String num;
   private String email;
   private String skin;
   private String remark;
@@ -61,12 +61,12 @@ public class SysUser extends BaseEntity implements Serializable {
   }
 
 
-  public String getNumber() {
-    return number;
+  public String getNum() {
+    return num;
   }
 
-  public void setNumber(String number) {
-    this.number = number;
+  public void setNum(String num) {
+    this.num = num;
   }
 
 

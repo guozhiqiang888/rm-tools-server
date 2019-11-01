@@ -1,0 +1,29 @@
+{
+  "code": "200",
+  "msg": "Success",
+  "data": [
+    {
+      "ID": "949F76690500565DE0535F303382C1D6",
+      "IsEmployee": false,
+      "EmployeeID": "44069094",
+      "ManagerID": "C5EDDCA026884A569795A33C2FAB7C18",
+      "Segment": "Data",
+      "BranchOrTeam": null,
+      "Region": "Hong Kong",
+      "ChineseName": null,
+      "EnglishName": "Aaron",
+      "PrimaryEmail": "yfefe@126.com",
+      "PrimaryPhone": "18729374857",
+      "Title": "CEO",
+      "Position": "Hong Kong",
+      "Gender": "Male",
+      "Location": "21 Street",
+      "CreatedTime": "2019-10-11",
+      "LastModifiedTime": "2019-10-13",
+      "CreatedByID": "C5EDDCA026884A569795A33C2FAB7C18",
+      "LastModifiedByID": null
+    }
+  ],
+  "times": "2019-10-31 15:58:27:027",
+  "messageIdentification": "534543645765"
+}

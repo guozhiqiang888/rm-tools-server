@@ -1,6 +1,6 @@
 package com.farben.springboot.util.response;
 
-public enum ResponseCode {
+public enum     ResponseCode {
     SUCCESS("200","success"),
     ERROR_REQUEST("400","error request");
 

@@ -1,0 +1,56 @@
+{
+  "code": "200",
+  "msg": "Success",
+  "data": {
+    "Prospects": [
+      {
+        "ID": "3CFCE1A467BF425AA35E5338420831A7",
+        "LocalName": "CC科技发展有限公司",
+        "ShortName": null,
+        "EnglishName": "CC Technology Development Ltd.",
+        "AssgineeID": "44069073",
+        "AssigneeName": "Abraham",
+        "StatusID": "Meeting Scheduling",
+        "NextAction": null,
+        "DueDate": "2019-11-11",
+        "Priority": "Medium",
+        "HasViewed": false
+      },
+      {
+        "ID": "9A833CF58A474C65B46F66BF108798C7",
+        "LocalName": "AA科技发展有限公司",
+        "ShortName": null,
+        "EnglishName": "CC Technology Development Ltd.",
+        "AssgineeID": "44069073",
+        "AssigneeName": "Abraham",
+        "StatusID": "Pending Acknowledge / Acknowledged / Request Re-Assignment",
+        "NextAction": null,
+        "DueDate": "2019-11-20",
+        "Priority": "Medium",
+        "HasViewed": false
+      },
+      {
+        "ID": "50CE6F6E545B4736AE12606EB3054E75",
+        "LocalName": "BB科技发展有限公司",
+        "ShortName": null,
+        "EnglishName": "CC Technology Development Ltd.",
+        "AssgineeID": "44069073",
+        "AssigneeName": "Abraham",
+        "StatusID": "Meeting Scheduling",
+        "NextAction": null,
+        "DueDate": "2019-11-22",
+        "Priority": "Medium",
+        "HasViewed": false
+      }
+    ],
+    ],
+    "Pagination": {
+      "PageCount": 10,
+      "PageIndex": 1,
+      "PageSize": 1,
+      "Start": 1
+    }
+  },
+  "times": "2019-10-31 15:00:53:053",
+  "messageIdentification": "4323532345"
+}

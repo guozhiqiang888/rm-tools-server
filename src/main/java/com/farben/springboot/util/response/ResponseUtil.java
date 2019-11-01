@@ -9,6 +9,10 @@ public class ResponseUtil {
 
     private static String MSG_TITLE = "msg";
 
+    public static Response success(){
+        return ResponseUtil.success(null);
+    }
+
     public static Response success(Object obj) {
         return ResponseUtil.success(ResponseCode.SUCCESS.getCode(), obj);
     }
