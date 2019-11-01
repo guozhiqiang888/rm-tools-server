@@ -42,12 +42,14 @@ public class ProspectControllerTest {
      */
     @Test
     public void testUpdateProspect() throws Exception {
+        String json = "{\n" +
+                "    \"PersonID\": \"200\",\n" +
+                "    \"tid\": \"123\",\n" +
+                "    \"Priority\": \"Medium\"\n" +
+                "}";
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.patch("/v1/prospects/P1034328431")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .param("PersonID","1001")
-                .param("Status","Finished")
-                .param("Priority","Low Low Low")
-                .param("AssigneeID","P100010001")
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())

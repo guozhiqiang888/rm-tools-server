@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.farben.springboot.bean.prospect.Prospect;
 import com.farben.springboot.bean.request.ProspectAssignBatchEditRequest;
+import com.farben.springboot.bean.request.ProspectUpdateRequest;
 import com.farben.springboot.service.ProspectService;
 import com.farben.springboot.util.JsonResourceUtil;
 import com.farben.springboot.util.response.Response;
@@ -102,15 +103,15 @@ public class ProspectController {
 
     @ApiOperation(value = "更新Prospect", notes = "更新Prospect")
     @RequestMapping(value = {"/{ProspectID}"}, method = RequestMethod.PATCH)
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "PersonID", value = "用户标识", required = true, paramType = "header", dataType = "String")
-    })
-    public Response updateProspect(@PathVariable("ProspectID") String ProspectID, String PersonID,
-                                   String ClientVisionName, String ContactPerson,
-                                   String ConfirmedOnBoardingName, String Status, Date DueDate,
-                                   String Priority, String AssigneeID, boolean HasViewed,
-                                   String HUBCustomerCode, Date ExpectedConversionDate) {
-        if (StringUtils.isEmpty(PersonID)) {
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "PersonID", value = "用户标识", required = true, paramType = "body", dataType = "String")
+//    })
+    public Response updateProspect(@PathVariable("ProspectID") String ProspectID, @RequestBody ProspectUpdateRequest request) {
+        logger.info("ProspectID====" + ProspectID);
+        logger.info("PersonID====" + request.toString());
+
+        if (StringUtils.isEmpty(request.getPersonID())) {
+            logger.info("======================================");
             return ResponseUtil.error("HSBC-E001", "E001", "Error: Update Error!", null);
         }
         //***********调用 Jason提供的update prospect api*********(start)****//
@@ -121,32 +122,76 @@ public class ProspectController {
             String filename = "/static/json/list/Prospect_List_Active.json";
             jsonObj = JsonResourceUtil.getJsonObjFromResource(filename);
             JSONArray prospects = jsonObj.getJSONArray("Prospects");
-            //JSON文件中的第一个prospect
-            JSONObject jsonObject = prospects.getJSONObject(0);
-            prospects.remove(jsonObject);
-            if (!StringUtils.isEmpty(Status)) {
-                jsonObject.fluentPut("Status", Status);
-            }
-            if (!StringUtils.isEmpty(Priority)) {
-                jsonObject.fluentPut("Priority", Priority);
-            }
-            if (!StringUtils.isEmpty(AssigneeID)) {
-                jsonObject.fluentPut("AssigneeID", AssigneeID);
-            }
-            prospects.fluentAdd(0, jsonObject);
-            if (!StringUtils.isEmpty(Status) || !StringUtils.isEmpty(Priority)) {
-                URL url = ProspectController.class.getResource(filename);
-                String path = url.getPath();
-                File file = new File(path);
-                if (file.exists()) {
-                    String jsonStr = jsonObj.toJSONString();
-                    FileUtils.writeStringToFile(file, jsonStr, "UTF-8", false);
+            JSONObject jsonObject = null;
+            for (int i = 0; i < prospects.size(); i++) {
+                jsonObject = prospects.getJSONObject(i);
+                String id = jsonObject.getString("ID");
+                if (ProspectID.equals(id)) {
+                    //JSON文件中的第 i 个prospect
+                    prospects.remove(jsonObject);
+                    if (!StringUtils.isEmpty(request.getStatus())) {
+                        jsonObject.fluentPut("Status", request.getStatus());
+                    }
+                    if (!StringUtils.isEmpty(request.getPriority())) {
+                        jsonObject.fluentPut("Priority", request.getPriority());
+                    }
+                    if (!StringUtils.isEmpty(request.getAssigneeID())) {
+                        jsonObject.fluentPut("AssigneeID", request.getAssigneeID());
+                    }
+                    prospects.fluentAdd(i, jsonObject);
+                    break;
                 }
             }
+            URL url = ProspectController.class.getResource(filename);
+            String path = url.getPath();
+            File file = new File(path);
+            if (file.exists()) {
+                FileUtils.writeStringToFile(file, jsonObj.toJSONString(), "UTF-8", false);
+            }
+            String detailFilename = "/static/json/detail/Prospect_Detail_1.json";
+            switch (ProspectID) {
+                case "P1034328431":
+                    break;
+                case "P1034328432":
+                    detailFilename = "/static/json/detail/Prospect_Detail_2.json";
+                    break;
+                case "P1034328433":
+                    detailFilename = "/static/json/detail/Prospect_Detail_3.json";
+                    break;
+                case "P1034328434":
+                    detailFilename = "/static/json/detail/Prospect_Detail_4.json";
+                    break;
+                case "P1034328435":
+                    detailFilename = "/static/json/detail/Prospect_Detail_5.json";
+                    break;
+                case "P1034328436":
+                    detailFilename = "/static/json/detail/Prospect_Detail_6.json";
+                    break;
+                default:
+                    break;
+            }
+            JSONObject detailjsonObj = JsonResourceUtil.getJsonObjFromResource(detailFilename);
+            if (!StringUtils.isEmpty(request.getStatus())) {
+                detailjsonObj.fluentPut("Status", request.getStatus());
+            }
+            if (!StringUtils.isEmpty(request.getPriority())) {
+                detailjsonObj.fluentPut("Priority", request.getPriority());
+            }
+            if (!StringUtils.isEmpty(request.getAssigneeID())) {
+                detailjsonObj.fluentPut("AssigneeID", request.getAssigneeID());
+            }
+
+            url = ProspectController.class.getResource(detailFilename);
+            path = url.getPath();
+            file = new File(path);
+            if (file.exists()) {
+                FileUtils.writeStringToFile(file, detailjsonObj.toJSONString(), "UTF-8", false);
+            }
         } catch (Exception e) {
+            logger.error(e.getCause().getMessage());
             return ResponseUtil.error("HSBC-E001", "E001", "Error: Update Error!", null);
         }
-        return ResponseUtil.success(jsonObj.toJSONString());
+        return ResponseUtil.success();
     }
 
     @ApiOperation(value = "获取Prospect Contact List", notes = "获取Prospect Contact List")
