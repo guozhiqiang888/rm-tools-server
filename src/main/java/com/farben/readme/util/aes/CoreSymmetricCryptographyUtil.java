@@ -1,0 +1,381 @@
+/*
+ * COPYRIGHT. HSBC HOLDINGS PLC 2016. ALL RIGHTS RESERVED.
+ *
+ * This software is only to be used for the purpose for which it has been
+ * provided. No part of it is to be reproduced, disassembled, transmitted,
+ * stored in a retrieval system nor translated in any human or computer
+ * language in any way or for any other purposes whatsoever without the prior
+ * written consent of HSBC Holdings plc.
+ */
+package com.farben.readme.util.aes;
+
+
+import com.farben.readme.constant.CoreCryptographyServiceConstants;
+import com.farben.readme.exception.CoreCryptographySystemException;
+import com.farben.readme.util.Base64;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.crypto.Cipher;
+import java.io.*;
+import java.security.*;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * util of AES CBC Cryptography that provides methods relevant to
+ * encryption and decryption
+ */
+public class CoreSymmetricCryptographyUtil {
+    private final static Logger logger = LoggerFactory.getLogger(CoreSymmetricCryptographyUtil.class);
+    static String aes128Key;
+
+    /**
+     * The class name.
+     */
+    private static final String CNAME = CoreSymmetricCryptographyUtil.class.getName();
+
+    /**
+     * The log for debug mode.
+     */
+    private static final Log DEBUGGER = LogFactory.getLog("DEBUGGER." + CoreSymmetricCryptographyUtil.CNAME);
+
+
+    /**
+     * CoreSymmetricCryptographyUtil#encryptData(java.lang.String)
+     */
+    public static String encryptData(final String sharedSecret, final String rawData) {
+        final String METHOD = "encryptData(String)";
+        debugEntry(METHOD);
+        if (sharedSecret == null || rawData == null) {
+            throw new IllegalArgumentException("sharedSecret or rawData cannot be null. ");
+        }
+
+        Key symmetricKey = null;
+        String encryptedData = null;
+        try {
+            // Generate symmetric key
+            symmetricKey = generateSymmetricKey(sharedSecret);
+            // Encrypt data with designated criteria, add Identifier "$" to
+            // head of encryptedData for indicating cipher, algorithm and so on
+            encryptedData =
+                CoreCryptographyServiceConstants.ENCRYPTION_IDENTIFIER + CoreCryptographyHelper.encryptCBCWithoutProvider(
+                    CoreCryptographyServiceConstants.CIPHER_ALGORITHM, CoreCryptographyServiceConstants.RANDOM_NUMBER_ALGORITHM,
+                    CoreCryptographyServiceConstants.INITIALISATIONVECTORLENGTH, rawData, symmetricKey);
+        } catch (GeneralSecurityException e) {
+            throw new CoreCryptographySystemException(CoreCryptographyServiceConstants.ERROR_MESSAGE_ENCRYPTION, e);
+        }
+        // debugExit(METHOD);
+        return encryptedData;
+    }
+
+    /**
+     * CoreSymmetricCryptographyUtil#decryptData(java.lang.String,
+     * java.lang.String)
+     */
+    public static String decryptData(final String sharedSecret, final String encryptedData) {
+        final String METHOD = "decryptData(String, String)";
+        debugEntry(METHOD);
+        if (sharedSecret == null || encryptedData == null) {
+            throw new IllegalArgumentException("sharedSecret or encryptedData cannot be null. ");
+        }
+        if (!encryptedData.startsWith(CoreCryptographyServiceConstants.ENCRYPTION_IDENTIFIER)) {
+            throw new IllegalArgumentException("encryptedData is illegal.");
+        }
+
+        String decryptedData = null;
+        // Peel off the first char the "$" that is the identifier indicating
+        // cipher, algorithm and so on, it is not used for encryption and
+        // decryption, hence remove it.
+        String encryptedDataWithoutIdentifier = encryptedData.substring(1, encryptedData.length());
+        try {
+            // Generate symmetric key based on shared secret passed
+            // in
+            Key symmetricKey = generateSymmetricKey(sharedSecret);
+            // Decrypt data with designated criteria
+            decryptedData = CoreCryptographyHelper.decryptCBCWithoutProvider(CoreCryptographyServiceConstants.CIPHER_ALGORITHM,
+                CoreCryptographyServiceConstants.INITIALISATIONVECTORLENGTH, encryptedDataWithoutIdentifier, symmetricKey);
+        } catch (IOException e) {
+            throw new CoreCryptographySystemException(CoreCryptographyServiceConstants.ERROR_MESSAGE_DECRYPTION, e);
+        } catch (GeneralSecurityException e) {
+            throw new CoreCryptographySystemException(CoreCryptographyServiceConstants.ERROR_MESSAGE_DECRYPTION, e);
+        }
+        // debugExit(METHOD);
+
+        return decryptedData;
+    }
+
+    /**
+     *
+     * Generate Symmetric key based on designated algorithms, key base and key
+     * length
+     *
+     * @param sharedSecret
+     *            Generated by Method generateSharedSecret() of the class
+     * @return the symmetric key
+     * @throws NoSuchAlgorithmException
+     */
+    private static Key generateSymmetricKey(final String sharedSecret) throws NoSuchAlgorithmException {
+        final String METHOD = "generateSymmetricKey(String, String)";
+        debugEntry(METHOD);
+        Key symmetricKey = CoreCryptographyHelper.generateSymmetricKey(CoreCryptographyServiceConstants.DIGEST_ALGORITHM,
+            CoreCryptographyServiceConstants.AES_ALGORITHM, sharedSecret, CoreCryptographyServiceConstants.AES_KEY_LENGTH);
+        debugExit(METHOD);
+        return symmetricKey;
+    }
+
+    /**
+     * CoreSymmetricCryptographyUtil#generateSharedSecret()
+     */
+    public static String generateSharedSecret() {
+        final String METHOD = "generateSharedSecret()";
+        debugEntry(METHOD);
+        String sharedSecret = null;
+        try {
+            sharedSecret = CoreCryptographyHelper.generateSharedSecret(CoreCryptographyServiceConstants.RANDOM_NUMBER_ALGORITHM,
+                CoreCryptographyServiceConstants.AES_SECRET_LENGTH);
+        } catch (NoSuchAlgorithmException e) {
+            throw new CoreCryptographySystemException(CoreCryptographyServiceConstants.ERROR_MESSAGE_SHAREDSECRET, e);
+        }
+        debugExit(METHOD);
+        return sharedSecret;
+    }
+
+    private static void debugEntry(final String methodName) {
+        final boolean DEBUG = CoreSymmetricCryptographyUtil.DEBUGGER.isDebugEnabled();
+        if (DEBUG) {
+            CoreSymmetricCryptographyUtil.DEBUGGER
+                .debug(CoreSymmetricCryptographyUtil.CNAME + "#" + methodName + ": ENTRY");
+        }
+    }
+
+    private static void debugExit(final String methodName) {
+        final boolean DEBUG = CoreSymmetricCryptographyUtil.DEBUGGER.isDebugEnabled();
+        if (DEBUG) {
+            CoreSymmetricCryptographyUtil.DEBUGGER
+                .debug(CoreSymmetricCryptographyUtil.CNAME + "#" + methodName + ": Exit");
+        }
+    }
+
+    private static void closeStream(final FileReader fr, final BufferedReader br) {
+        try {
+            if (null != fr) {
+                fr.close();
+            }
+            if (null != br) {
+                br.close();
+            }
+        } catch (IOException e) {
+            CoreSymmetricCryptographyUtil.logger.error("[closeStream] IOException", e);
+        }
+
+
+    }
+
+    public static String rsaEncryptByPublicKey(final String target) {
+        byte[] enBytes = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+        try {
+            fr = new FileReader(DictionaryPropertyUtils.loadRSAPublicKey());
+            br = new BufferedReader(fr);
+            String str;
+            StringBuffer buf = new StringBuffer();
+            while ((str = br.readLine()) != null) {
+                buf.append(str);
+            }
+            Cipher cipher = Cipher.getInstance(CoreCryptographyServiceConstants.RSA_ALGORITHM);
+            cipher.init(Cipher.ENCRYPT_MODE, getPublicKey(buf.toString()));
+            enBytes = cipher.doFinal(target.getBytes());
+        } catch (Exception e) {
+            throw new CoreCryptographySystemException(CoreCryptographyServiceConstants.ERROR_MESSAGE_ENCRYPTION, e);
+        } finally {
+            closeStream(fr, br);
+        }
+        return Base64.encode(enBytes);
+    }
+
+    public static String rsaDecryptByPrivateKey(final String encryptData) {
+        byte[] deBytes = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+        try {
+            fr = new FileReader(DictionaryPropertyUtils.loadRSAPrivateKey());
+            br = new BufferedReader(fr);
+            String str;
+            StringBuffer buf = new StringBuffer();
+            while ((str = br.readLine()) != null) {
+                buf.append(str);
+            }
+            Cipher cipher = Cipher.getInstance(CoreCryptographyServiceConstants.RSA_ALGORITHM);
+            cipher.init(Cipher.DECRYPT_MODE, getPrivateKey(buf.toString()));
+            deBytes = cipher.doFinal(Base64.decode(encryptData));
+        } catch (Exception e) {
+            throw new CoreCryptographySystemException(CoreCryptographyServiceConstants.ERROR_MESSAGE_DECRYPTION, e);
+        } finally {
+            closeStream(fr, br);
+        }
+        return new String(deBytes);
+    }
+
+    public static String rsaEncryptByPrivateKey(final String target) {
+        byte[] enBytes = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+        try {
+            fr = new FileReader(DictionaryPropertyUtils.loadRSAPrivateKey());
+            br = new BufferedReader(fr);
+            String str;
+            StringBuffer buf = new StringBuffer();
+            while ((str = br.readLine()) != null) {
+                buf.append(str);
+            }
+            Cipher cipher = Cipher.getInstance(CoreCryptographyServiceConstants.RSA_ALGORITHM);
+            cipher.init(Cipher.ENCRYPT_MODE, getPrivateKey(buf.toString()));
+            enBytes = cipher.doFinal(target.getBytes());
+        } catch (Exception e) {
+            throw new CoreCryptographySystemException(CoreCryptographyServiceConstants.ERROR_MESSAGE_ENCRYPTION, e);
+        } finally {
+            closeStream(fr, br);
+        }
+        return Base64.encode(enBytes);
+    }
+
+    public static String rsaDecryptByPublicKey(final String encryptData) {
+        FileReader fr = null;
+        BufferedReader br = null;
+        String result = null;
+        try {
+            fr = new FileReader(DictionaryPropertyUtils.loadRSAPublicKey());
+            br = new BufferedReader(fr);
+            String str;
+            StringBuffer buf = new StringBuffer();
+            while ((str = br.readLine()) != null) {
+                buf.append(str);
+            }
+            Cipher cipher = Cipher.getInstance(CoreCryptographyServiceConstants.RSA_ALGORITHM);
+            cipher.init(Cipher.DECRYPT_MODE, getPublicKey(buf.toString()));
+            byte[] deBytes = cipher.doFinal(Base64.decode(encryptData));
+            result = new String(deBytes);
+        } catch (Exception e) {
+            throw new CoreCryptographySystemException(CoreCryptographyServiceConstants.ERROR_MESSAGE_DECRYPTION, e);
+        } finally {
+            closeStream(fr, br);
+        }
+        return result;
+    }
+
+    private static PublicKey getPublicKey(final String publicKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        byte[] keyBytes = Base64.decode(publicKey);
+        X509EncodedKeySpec keySpec = new X509EncodedKeySpec(keyBytes);
+        KeyFactory keyFactory = KeyFactory.getInstance(CoreCryptographyServiceConstants.RSA_ALGORITHM);
+        PublicKey pubKey = keyFactory.generatePublic(keySpec);
+        return pubKey;
+    }
+
+    private static PrivateKey getPrivateKey(final String privateKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        byte[] keyBytes = Base64.decode(privateKey);
+        PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(keyBytes);
+        KeyFactory keyFactory = KeyFactory.getInstance(CoreCryptographyServiceConstants.RSA_ALGORITHM);
+        PrivateKey priKey = keyFactory.generatePrivate(keySpec);
+        return priKey;
+    }
+
+    public static Map<String, String> createRSAGenerateKeyPair() {
+        Map<String, String> map = null;
+        BufferedWriter pubbw = null;
+        BufferedWriter pribw = null;
+        try {
+            KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance(CoreCryptographyServiceConstants.RSA_ALGORITHM);
+            KeyPair keyPair = keyPairGen.generateKeyPair();
+            PublicKey publicKey = keyPair.getPublic();
+            PrivateKey privateKey = keyPair.getPrivate();
+            String pubKeyString = getKeyString(publicKey);
+            String privateKeyString = getKeyString(privateKey);
+            FileWriter pubFw = new FileWriter(DictionaryPropertyUtils.loadRSAPublicKey());
+            FileWriter priFw = new FileWriter(DictionaryPropertyUtils.loadRSAPrivateKey());
+            pubbw = new BufferedWriter(pubFw);
+            pribw = new BufferedWriter(priFw);
+            pubbw.write(pubKeyString);
+            pribw.write(privateKeyString);
+            pubbw.flush();
+            pribw.flush();
+            map = new HashMap<String, String>();
+            map.put("publicKey", pubKeyString);
+            map.put("privateKey", privateKeyString);
+        } catch (Exception e) {
+            throw new CoreCryptographySystemException(CoreCryptographyServiceConstants.ERROR_MESSAGE_DECRYPTION, e);
+        } finally {
+            try {
+                if (null != pubbw) {
+                    pubbw.close();
+                }
+                if (null != pribw) {
+                    pribw.close();
+                }
+            } catch (IOException e) {
+                CoreSymmetricCryptographyUtil.logger.error("[createRSAGenerateKeyPair] IOException", e);
+            }
+        }
+        return map;
+    }
+
+    private static String getKeyString(final Key key) {
+        byte[] keyBytes = key.getEncoded();
+        String str = Base64.encode(keyBytes);
+        return str;
+    }
+
+    public static String aesEncrypt(final String target) {
+        final String METHOD = "aesEncrypt(String)";
+        debugEntry(METHOD);
+        Key symmetricKey = null;
+        String encryptedData = null;
+        try {
+            symmetricKey = generateSymmetricKey(aes128Key);
+            encryptedData =
+                CoreCryptographyServiceConstants.ENCRYPTION_IDENTIFIER + CoreCryptographyHelper.encryptCBCWithoutProvider(
+                    CoreCryptographyServiceConstants.CIPHER_ALGORITHM, CoreCryptographyServiceConstants.RANDOM_NUMBER_ALGORITHM,
+                    CoreCryptographyServiceConstants.INITIALISATIONVECTORLENGTH, target, symmetricKey);
+        } catch (GeneralSecurityException e) {
+            throw new CoreCryptographySystemException(CoreCryptographyServiceConstants.ERROR_MESSAGE_ENCRYPTION, e);
+        } catch (IllegalArgumentException e) {
+            throw new CoreCryptographySystemException(CoreCryptographyServiceConstants.ERROR_MESSAGE_DECRYPTION, e);
+        } catch (Exception e) {
+            throw new CoreCryptographySystemException(CoreCryptographyServiceConstants.ERROR_MESSAGE_DECRYPTION, e);
+        }
+        debugExit(METHOD);
+        return encryptedData;
+    }
+
+    public static String aesDecrypt(final String encryptData) {
+        final String METHOD = "aesDecrypt(String)";
+        debugEntry(METHOD);
+        if (!encryptData.startsWith(CoreCryptographyServiceConstants.ENCRYPTION_IDENTIFIER)) {
+            throw new IllegalArgumentException("encryptedData is illegal.");
+        }
+        String decryptedData = null;
+        String encryptedDataWithoutIdentifier = encryptData.substring(1, encryptData.length());
+        try {
+            Key symmetricKey = generateSymmetricKey(aes128Key);
+            decryptedData = CoreCryptographyHelper.decryptCBCWithoutProvider(CoreCryptographyServiceConstants.CIPHER_ALGORITHM,
+                CoreCryptographyServiceConstants.INITIALISATIONVECTORLENGTH, encryptedDataWithoutIdentifier, symmetricKey);
+        } catch (IOException e) {
+            throw new CoreCryptographySystemException(CoreCryptographyServiceConstants.ERROR_MESSAGE_DECRYPTION, e);
+        } catch (GeneralSecurityException e) {
+            throw new CoreCryptographySystemException(CoreCryptographyServiceConstants.ERROR_MESSAGE_DECRYPTION, e);
+        } catch (IllegalArgumentException e) {
+            throw new CoreCryptographySystemException(CoreCryptographyServiceConstants.ERROR_MESSAGE_DECRYPTION, e);
+        } catch (Exception e) {
+            throw new CoreCryptographySystemException(CoreCryptographyServiceConstants.ERROR_MESSAGE_DECRYPTION, e);
+        }
+        debugExit(METHOD);
+        return decryptedData;
+    }
+}
+

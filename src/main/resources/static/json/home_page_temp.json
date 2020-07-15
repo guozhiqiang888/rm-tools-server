@@ -1,0 +1,165 @@
+{
+  "section1": {
+    "title": "",
+    "value": "",
+    "items": [
+      {
+        "name": "",
+        "dec": "",
+        "picurl": "",
+        "picurl2": "",
+        "picurl3": ""
+      },
+      {
+        "name": "",
+        "dec": "",
+        "picurl": "",
+        "picurl2": "",
+        "picurl3": ""
+      },
+      {
+        "name": "",
+        "dec": "",
+        "picurl": "",
+        "picurl2": "",
+        "picurl3": ""
+      }
+    ]
+  },
+  "section2": {
+    "title": "",
+    "value": "",
+    "items": [
+      {
+        "childName": "",
+        "childValue": "",
+        "dec": "",
+        "items": [
+          {
+            "productName": "",
+            "link": "",
+            "imgUrl": "",
+            "imgUrl2": "",
+            "imgUrl3": ""
+          },
+          {
+            "productName": "",
+            "link": "",
+            "imgUrl": "",
+            "imgUrl2": "",
+            "imgUrl3": ""
+          },
+          {
+            "productName": "",
+            "link": "",
+            "imgUrl": "",
+            "imgUrl2": "",
+            "imgUrl3": ""
+          }
+        ]
+      },
+      {
+        "childName": "",
+        "childValue": "",
+        "dec": "",
+        "items": [
+          {
+            "productName": "",
+            "link": "",
+            "imgUrl": "",
+            "imgUrl2": "",
+            "imgUrl3": ""
+          },
+          {
+            "productName": "",
+            "link": "",
+            "imgUrl": "",
+            "imgUrl2": "",
+            "imgUrl3": ""
+          },
+          {
+            "productName": "",
+            "link": "",
+            "imgUrl": "",
+            "imgUrl2": "",
+            "imgUrl3": ""
+          }
+        ]
+      },
+      {
+        "childName": "",
+        "childValue": "",
+        "dec": "",
+        "items": [
+          {
+            "productName": "",
+            "link": "",
+            "imgUrl": "",
+            "imgUrl2": "",
+            "imgUrl3": ""
+          },
+          {
+            "productName": "",
+            "link": "",
+            "imgUrl": "",
+            "imgUrl2": "",
+            "imgUrl3": ""
+          },
+          {
+            "productName": "",
+            "link": "",
+            "imgUrl": "",
+            "imgUrl2": "",
+            "imgUrl3": ""
+          }
+        ]
+      },
+      {
+        "childName": "",
+        "childValue": "",
+        "dec": "",
+        "items": [
+          {
+            "productName": "",
+            "link": "",
+            "imgUrl": "",
+            "imgUrl2": "",
+            "imgUrl3": ""
+          },
+          {
+            "productName": "",
+            "link": "",
+            "imgUrl": "",
+            "imgUrl2": "",
+            "imgUrl3": ""
+          },
+          {
+            "productName": "",
+            "link": "",
+            "disabled": true,
+            "imgUrl": "",
+            "imgUrl2": "",
+            "imgUrl3": ""
+          }
+        ]
+      }
+    ]
+  },
+  "buttons": [
+    {
+      "title": "",
+      "url": "",
+      "eventContent": ""
+    },
+    {
+      "title": "",
+      "url": "",
+      "eventContent": ""
+    },
+    {
+      "title": "",
+      "url": "",
+      "eventContent": ""
+    }
+  ]
+}

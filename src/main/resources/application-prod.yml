@@ -1,0 +1,87 @@
+######## PROD LDAP ###############
+ldap:
+  staffSuffix: '@hsbc'
+  ldapAuthFilter: '(&(|(objectclass=userproxy)(objectclass=user))(|(employeeID={})(hsbc-ad-SAMAccountName={})))'
+  ldapSearchDC: 'OU=HSBCPeople,DC=InfoDir,DC=Prod,DC=HSBC'
+  ldapAttr:
+    caPath : /static/CA/HSBCProdCA.jks
+    caPwd : V6Zftti2uDxPg0LiK4XUzzFWnnULxOzfyeAY9LQkhhI=
+    ssl:
+      SocketFac:
+        prov: ssl.SocketFactory.provider
+      SerSocketFac:
+        prov: ssl.ServerSocketFactory.provider
+    ibm:
+      SSLSocketFacImpl: com.ibm.jsse2.SSLSocketFactoryImpl
+      SSLSerSocketFacImpl: com.ibm.jsse2.SSLServerSocketFactoryImpl
+    trustStore : javax.net.ssl.trustStore
+  ldapCtxHashTable:
+    java:
+      naming:
+        factory:
+          initial: com.sun.jndi.ldap.LdapCtxFactory
+        security:
+          authentication: simple
+        ldap:
+          version: 3
+        provider:
+          url:  ldaps://glue.systems.hk.hsbc:3269
+  ldapReturnedAtts:
+    - memberOf
+    - mail
+    - hsbc-ad-KnownAsGivenName
+    - hsbc-ad-KnownAsLastName
+  ldapGroups:
+    - Infodir-WeChat-Viewer-Prod
+    - Infodir-WeChat-Editor-Prod
+    - Infodir-WeChat-Approver-Prod
+    - Infodir-WeChat-ITAdmin-Prod
+
+spring:
+  datasource:
+    wechat:
+      #   basic configuration
+      username: Cmbprdwechat
+      password: OZWsVc6StWDSLbmPJRR0S4A8gT6VhYji
+      driverClassName: oracle.jdbc.driver.OracleDriver
+      url: jdbc:oracle:thin:@(DESCRIPTION_LIST=(LOAD_BALANCE=off)(FAILOVER=on)(DESCRIPTION=(ADDRESS_LIST=(LOAD_BALANCE=on)(ADDRESS=(PROTOCOL=TCP)(HOST=cnrac19-scan.gss5.hk.hsbc)(PORT=2001)))(CONNECT_DATA=(SERVICE_NAME=PCNWCBA1_APP.cn.hsbc)))(DESCRIPTION=(ADDRESS_LIST=(LOAD_BALANCE=on)(ADDRESS=(PROTOCOL=TCP)(HOST=cnrac17-scan.gss5.hk.hsbc)(PORT=2001)))(CONNECT_DATA=(SERVICE_NAME=PCNWCBA1_APP.cn.hsbc))))
+      type: com.alibaba.druid.pool.DruidDataSource
+      #   other configuration
+      initialSize: 5
+      minIdle: 5
+      maxActive: 200
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      # configure filters of the druid monitor
+      filters: stat,wall,log4j
+      maxPoolPreparedStatementPerConnectionSize: 20
+      useGlobalDataSourceStat: true
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+
+eroad:
+  hsbc:
+    tencentStaffId: 99999999
+    tencentStaffPwd: Ph3fqBCJnPKWFylkEajZrrJWIkursmqy
+    tencentStaffMemberOf: Infodir-WeChat-Editor-Prod
+    tencentStaffTabAuth: logon_content,account_content,it_content
+    hsbcValidStaffUrl: http://directory.global.hsbc/apiSite/api/search?keyword={staffId}
+  editAuth:
+    groups:
+      - Infodir-WeChat-Editor-Prod
+
+jwt:
+  headerTag: authorization
+  secret: 123OKHU0s
+  expiration: 3600 #expiration time(unit：seconds)
+
+
+
+
+
+
